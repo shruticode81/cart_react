@@ -11,6 +11,30 @@ class CartItem extends React.Component{
     }
     increaseQuantity=()=>{
         console.log('this.state',this.state);
+        //setState form 1 ---> setStatte func is inherit from Component class in react
+        // this.setState({  // this setState can be used when prevState doesnot required
+        //     qty: this.state.qty+1
+        //      title: "use of phone"
+        // });
+
+        //setState form 2 ---> setState is used when prevState is required.
+        this.setState((prevState)=>{
+            return{
+                qty:prevState.qty+1 // merge this with the this.state obj
+            }
+        });
+    }
+    decreaseQuantity=()=>{
+        console.log('this.state',this.state);
+        const {qty} = this.state
+        if(qty==0){
+            return;
+        }
+        this.setState((prevState)=>{
+            return{
+                qty: prevState.qty-1 
+            }
+        })
     }
     render(){
         const {price,title,qty}=this.state;
@@ -34,7 +58,8 @@ class CartItem extends React.Component{
                         <img
                             alt="decrease"
                             className="action-icons" 
-                            src="https://www.flaticon.com/premium-icon/icons/svg/2985/2985073.svg" 
+                            src="https://www.flaticon.com/premium-icon/icons/svg/2985/2985073.svg"
+                            onClick={this.decreaseQuantity} 
                         />
                         <img 
                             alt="delete" 
