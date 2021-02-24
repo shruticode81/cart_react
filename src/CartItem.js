@@ -8,9 +8,24 @@ class CartItem extends React.Component{
             qty: 1,
             img :''
         }
+       // this.testing();
     }
+    // testing(){
+    //     const promise =  new Promise((resolve,reject)=>{
+    //         setTimeout(()=>{
+    //             resolve('done');
+    //         },5000);
+    //     })
+    //     promise.then(()=>{
+    //         this.setState({qty:this.state.qty+10});
+    //         this.setState({qty:this.state.qty+10});
+    //         this.setState({qty:this.state.qty+10});
+
+    //         console.log('state',this.state);
+    //     });
+    // }
     increaseQuantity=()=>{
-        console.log('this.state',this.state);
+        //console.log('this.state',this.state);
         //setState form 1 ---> setStatte func is inherit from Component class in react
         // this.setState({  // this setState can be used when prevState doesnot required
         //     qty: this.state.qty+1
@@ -22,12 +37,16 @@ class CartItem extends React.Component{
             return{
                 qty:prevState.qty+1 // merge this with the this.state obj
             }
+        },()=>{
+            console.log('this.state',this.state);
         });
+        
+
     }
     decreaseQuantity=()=>{
         console.log('this.state',this.state);
         const {qty} = this.state
-        if(qty==0){
+        if(qty===0){
             return;
         }
         this.setState((prevState)=>{
@@ -37,6 +56,7 @@ class CartItem extends React.Component{
         })
     }
     render(){
+        console.log('render');
         const {price,title,qty}=this.state;
         return(
             <div className="cart-item">
