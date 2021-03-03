@@ -1,17 +1,17 @@
 import React from 'react';
 const Navbar =(props)=>{
     
-    
+    return(
+        <div style={styles.nav}>
+            <div style={styles.cartIconContainer}>
+                <img style={styles.cartIcon} src="https://image.flaticon.com/icons/svg/2121/2121815.svg" alt="cart icon"/>
+                <span style={styles.cartCount}>{props.count}</span>
+            </div>
+        </div>
+    );
 
     
-        return(
-            <div style={styles.nav}>
-                <div style={styles.cartIconContainer}>
-                    <img style={styles.cartIcon} src="https://www.flaticon.com/svg/vstatic/svg/34/34568.svg?token=exp=1614703290~hmac=2f293b1884df4eb1afba410fa2323606" alt="cart icon"/>
-                    <span style={styles.cartCount}>3</span>
-                </div>
-            </div>
-        );
+        
         
     
        

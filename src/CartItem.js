@@ -1,21 +1,21 @@
 import React from 'react';
-class CartItem extends React.Component{
+const CartItem =(props)=>{
     
     
 
-    render(){
-        console.log(this.props);
+    
+        //console.log(this.props);
         console.log('render');
-        const {price,title,qty}=this.props.product;
+        const {price,title,qty}=props.product;
         const { product,
                 onIncreaseQuantity,
                 onDecreaseQuantity,
                 onDeleteQuantity
-                }=this.props; // used this bz we donot have to write this.props.product 
+                }=props; // used this bz we donot have to write this.props.product 
         return(
             <div className="cart-item">
                 <div className="left-block">
-                    <img style={styles.image}/>
+                    <img style={styles.image} src={product.img} />
                 </div>
                 <div className="right-block">
                     <div style={{fontSize:25}}>{title}</div>
@@ -46,7 +46,7 @@ class CartItem extends React.Component{
                 </div>
             </div>
         )
-    }
+    
 }
 const styles = {
     image:{
