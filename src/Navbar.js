@@ -37,7 +37,7 @@ const styles = {
         borderRadius: '50%',
         padding: '4px 8px',
         position: 'absolute',
-        right: 0,
+        right: 5,
         top: -9
     }
 
