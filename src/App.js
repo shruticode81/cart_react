@@ -2,38 +2,42 @@ import React from 'react';
 //import CartItem from './CartItem';
 import Cart from './Cart';
 import Navbar from './Navbar';
+import firebase from 'firebase';
 
 class App extends React.Component {
   
     constructor () {
       super();
       this.state = {
-        products: [
-          {
-            price: 99,
-            title: 'Watch',
-            qty: 1,
-            img: 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1102&q=80',
-            id: 1
-          },
-          {
-            price: 999,
-            title: 'Mobile Phone',
-            qty: 10,
-            img: 'https://images.unsplash.com/photo-1589492477829-5e65395b66cc?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTJ8fG1vYmxpZSUyMHBob25lfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-            id: 2
-          },
-          {
-            price: 999,
-            title: 'Laptop',
-            qty: 4,
-            img: 'https://images.unsplash.com/photo-1593642532009-6ba71e22f468?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
-            id: 3
-          }
-        ]
+        products: [] ,// we will get the product data from firebase docs
+        loading:true
       }
       // this.increaseQuantity = this.increaseQuantity.bind(this);
       // this.testing();
+    }
+    //we will load the or fetch the product inside lifecycle method
+    //which is ComponentDidMount()
+    componentDidMount(){
+      firebase
+       .firestore()
+       .collection('products')
+       .get() // returns a promise
+       .then((snapshot)=>{
+         console.log(snapshot);
+         snapshot.docs.map((doc)=>{
+           console.log(doc.data());
+         });
+         //let collect the products from db and display it
+         const products = snapshot.docs.map((doc)=>{
+           const data = doc.data();
+           data['id']=doc.id;
+           return data;
+         });
+         this.setState({
+           products,
+           loading:false
+         })
+       })
     }
     handleIncreaseQuantity = (product) => {
       console.log('Heyy please inc the qty of ', product);
@@ -59,6 +63,7 @@ class App extends React.Component {
   
       this.setState({
         products
+        //loading:false
       })
     }
     handleDeleteProduct = (id) => {
@@ -82,12 +87,16 @@ class App extends React.Component {
       const {products} = this.state;
       let cartTotal = 0;
       products.map((product)=>{
-        cartTotal=cartTotal+product.qty*product.price
-      })
+        if(product.qty>0){
+          cartTotal=cartTotal+product.qty*product.price
+        }
+        return '';
+        
+      });
       return cartTotal;
     }
   render(){
-    const {products} = this.state;
+    const {products,loading} = this.state;
   
     return (
       <div className="App">
@@ -99,6 +108,7 @@ class App extends React.Component {
           onDecreaseQuantity={this.handleDecreaseQuantity}
           onDeleteQuantity = {this.handleDeleteProduct}
         />
+        {loading && <h1>loading...</h1>}
         <div style={{padding:10, fontSize:20}}>
           TOTAL:{this.getCartTotal()}
         </div>
