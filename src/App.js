@@ -18,26 +18,50 @@ class App extends React.Component {
     //we will load the or fetch the product inside lifecycle method
     //which is ComponentDidMount()
     componentDidMount(){
+      // firebase
+      //  .firestore()
+      //  .collection('products')
+      //  .get() // returns a promise
+      //  .then((snapshot)=>{
+      //    console.log(snapshot);
+      //    snapshot.docs.map((doc)=>{
+      //      console.log(doc.data());
+      //    });
+      //    //let collect the products from db and display it
+      //    const products = snapshot.docs.map((doc)=>{
+      //      const data = doc.data();
+      //      data['id']=doc.id;
+      //      return data;
+      //    });
+      //    this.setState({
+      //      products,
+      //      loading:false
+      //    })
+      //  })
+
+        
       firebase
        .firestore()
        .collection('products')
-       .get() // returns a promise
-       .then((snapshot)=>{
-         console.log(snapshot);
-         snapshot.docs.map((doc)=>{
-           console.log(doc.data());
-         });
-         //let collect the products from db and display it
-         const products = snapshot.docs.map((doc)=>{
-           const data = doc.data();
-           data['id']=doc.id;
-           return data;
-         });
-         this.setState({
-           products,
-           loading:false
-         })
-       })
+       //.onSnapshot helps in attaching event listener and whenever where is a change in 
+       //firebase react get updated without refereshing
+       .onSnapshot((snapshot)=>{
+        console.log(snapshot);
+        snapshot.docs.map((doc)=>{
+          console.log(doc.data());
+        });
+        //let collect the products from db and display it
+        const products = snapshot.docs.map((doc)=>{
+          const data = doc.data();
+          data['id']=doc.id;
+          return data;
+        });
+        this.setState({
+          products,
+          loading:false
+        })
+      })
+      
     }
     handleIncreaseQuantity = (product) => {
       console.log('Heyy please inc the qty of ', product);
