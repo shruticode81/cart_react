@@ -69,28 +69,50 @@ class App extends React.Component {
       console.log('Heyy please inc the qty of ', product);
       const { products } = this.state;
       const index = products.indexOf(product);
+      //we will find docRef of product in firbase those qty have to be increase
+      const docRef = this.db.collection('products').doc(products[index].id);
+      docRef
+        .update({
+          qty: products[index].qty+1
+        })
+        .then(()=>{
+          console.log('updated successfully');
+        })
+        .catch((error)=>{
+          console.log('Error:',error);
+        })
+      // products[index].qty += 1;
   
-      products[index].qty += 1;
-  
-      this.setState({
-        products
-      })
+      // this.setState({
+      //   products
+      // })
     }
     handleDecreaseQuantity = (product) => {
       console.log('Heyy please inc the qty of ', product);
       const { products } = this.state;
       const index = products.indexOf(product);
+
+      const docRef = this.db.collection('products').doc(products[index].id);
+      docRef
+          .update({
+            qty:products[index].qty-1
+          })
+          .then(()=>{
+            console.log('updated successfully decrese qty')
+          })
+          .catch((error)=>{
+            console.log("Error:",error);
+          })
+      // if (products[index].qty === 0) {
+      //   return;
+      // }
   
-      if (products[index].qty === 0) {
-        return;
-      }
+      // products[index].qty -= 1;
   
-      products[index].qty -= 1;
-  
-      this.setState({
-        products
-        //loading:false
-      })
+      // this.setState({
+      //   products
+      //   //loading:false
+      // })
     }
     handleDeleteProduct = (id) => {
       const { products } = this.state;
@@ -145,7 +167,7 @@ class App extends React.Component {
       <div className="App">
         {/* <h1>Cart</h1> */}
         <Navbar count={ this.getCartCount()}/>
-        <button onClick={this.addProduct}>Add a product</button>
+        {/* <button onClick={this.addProduct}>Add a product</button> */}
         <Cart
           products= {products}
           onIncreaseQuantity={this.handleIncreaseQuantity}
